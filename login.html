@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SchoolTrack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="schoollogo.png" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #00006b;
+            --secondary-color: #00006b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #00006b 0%, #00006b 100%);
+            min-height: 100vh;
+        }
+
+        .login-container {
+            max-width: 500px;
+            margin: 120px auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-login {
+            background: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .user-type-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-type-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-type-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .user-type-tab:hover:not(.active) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .admin-register-link {
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .login-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 576px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .container {
+                background: rgb(0, 0, 107) !important;
+                backdrop-filter: blur(10px);
+
+            }
+
+            .navbar {
+                background: rgb(0, 0, 107) !important;
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <img src="schoollogo.png" alt="" width="100"></i>SchoolTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Student Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Admin Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="container">
+        <div class="login-container">
+            <div class="text-center mb-4">
+                <i class="bi bi-box-arrow-in-right login-icon"></i>
+                <h2 class="mt-3">Welcome Back</h2>
+                <p class="text-muted">Login to your account</p>
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <!-- User Type Selection -->
+            <div class="user-type-tabs">
+                <div class="user-type-tab active" data-type="student">
+                    <i class="bi bi-person"></i>
+                    <div>Student</div>
+                </div>
+                <div class="user-type-tab" data-type="admin">
+                    <i class="bi bi-shield-lock"></i>
+                    <div>Admin</div>
+                </div>
+            </div>
+
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="loginId" class="form-label">
+                        <i class="bi bi-person-badge me-1"></i>
+                        <span id="loginIdLabel">Full Name</span>
+                    </label>
+                    <input type="text" class="form-control" id="loginId" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="loginPassword" class="form-label">
+                        <i class="bi bi-lock me-1"></i>Password
+                    </label>
+                    <div class="password-container">
+                        <input type="password" class="form-control" id="loginPassword" required>
+                        <i class="bi bi-eye-slash password-toggle" id="toggleLoginPassword"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-login text-white">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                </button>
+            </form>
+
+            <div class="admin-register-link" id="adminRegisterLink" style="display: none;">
+                <p class="mb-0">Need an admin account? <a href="admin-register.html" class="text-primary">Register as
+                        Admin</a></p>
+            </div>
+
+            <div class="text-center mt-3">
+                <p class="mb-0">Don't have a student account? <a href="register.html" class="text-primary">Register
+                        here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxqHcw20bkjV8lZhBxnYpnc71EMmMy4sY",
+            authDomain: "my-project-d8b25.firebaseapp.com",
+            projectId: "my-project-d8b25",
+            storageBucket: "my-project-d8b25.firebasestorage.app",
+            messagingSenderId: "1091543391506",
+            appId: "1:1091543391506:web:9b642fbfb3d3717855e7cb",
+            measurementId: "G-5PC522L4W7"
+        };
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let currentUserType = 'student';
+
+        // User type tabs
+        document.querySelectorAll('.user-type-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.user-type-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentUserType = this.dataset.type;
+
+                const loginIdLabel = document.getElementById('loginIdLabel');
+                const loginId = document.getElementById('loginId');
+                const adminRegisterLink = document.getElementById('adminRegisterLink');
+
+                if (currentUserType === 'admin') {
+                    loginIdLabel.textContent = 'Admin Username';
+                    loginId.placeholder = 'Enter admin username';
+                    adminRegisterLink.style.display = 'block';
+                } else {
+                    loginIdLabel.textContent = 'Full Name';
+                    loginId.placeholder = 'Enter your full name';
+                    adminRegisterLink.style.display = 'none';
+                }
+            });
+        });
+
+        // Password toggle functionality
+        const toggleLoginPassword = document.getElementById('toggleLoginPassword');
+        const loginPasswordInput = document.getElementById('loginPassword');
+
+        toggleLoginPassword.addEventListener('click', function () {
+            const type = loginPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            loginPasswordInput.setAttribute('type', type);
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const loginId = document.getElementById('loginId').value;
+            const password = document.getElementById('loginPassword').value;
+
+            // Disable submit button to prevent multiple submissions
+            const submitButton = document.querySelector('.btn-login');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Logging in...';
+
+            if (currentUserType === 'student') {
+                // Student login
+                const studentsSnapshot = await database.ref('students').orderByChild('fullName').equalTo(loginId).once('value');
+
+                if (studentsSnapshot.exists()) {
+                    let studentFound = false;
+                    studentsSnapshot.forEach(child => {
+                        const student = child.val();
+                        if (student.password === btoa(password)) {
+                            studentFound = true;
+                            // Update last login
+                            database.ref(`students/${child.key}/lastLogin`).set(new Date().toISOString());
+
+                            // Store student data in session
+                            sessionStorage.setItem('currentUser', JSON.stringify({
+                                id: child.key,
+                                type: 'student',
+                                ...student
+                            }));
+                            window.location.href = 'student-dashboard.html';
+                        }
+                    });
+
+                    if (!studentFound) {
+                        showAlert('Invalid credentials!', 'danger');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+                    }
+                } else {
+                    showAlert('Student not found!', 'danger');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+                }
+            } else {
+                // Admin login
+                const adminsSnapshot = await database.ref('admins').orderByChild('username').equalTo(loginId).once('value');
+
+                if (adminsSnapshot.exists()) {
+                    let adminFound = false;
+                    adminsSnapshot.forEach(child => {
+                        const admin = child.val();
+                        if (admin.password === btoa(password) && admin.isActive) {
+                            adminFound = true;
+                            // Update last login
+                            database.ref(`admins/${child.key}/lastLogin`).set(new Date().toISOString());
+
+                            // Store admin data in session
+                            sessionStorage.setItem('currentUser', JSON.stringify({
+                                id: child.key,
+                                type: 'admin',
+                                role: admin.role,
+                                ...admin
+                            }));
+                            window.location.href = 'admin-dashboard.html';
+                        }
+                    });
+
+                    if (!adminFound) {
+                        showAlert('Invalid credentials or account deactivated!', 'danger');
+                        submitButton.disabled = false;
+                        submitButton.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+                    }
+                } else {
+                    showAlert('Admin not found!', 'danger');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<i class="bi bi-box-arrow-in-right me-2"></i>Login';
+                }
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>

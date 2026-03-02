@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration - SchoolTrack</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="shortcut icon" href="schoollogo.png" type="image/x-icon">
+    <style>
+        :root {
+            --primary-color: #00006b;
+            --secondary-color: #00006b;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #00006b 0%, #00006b 100%);
+            min-height: 100vh;
+        }
+
+        .register-container {
+            max-width: 600px;
+            margin: 120px auto;
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .btn-register {
+            background: var(--primary-color);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-register:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.1) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6b7280;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .admin-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .security-note {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .register-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .role-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.25rem;
+        }
+
+        .debug-info {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+            display: none;
+        }
+
+        .registration-key-hint {
+            background: #fef3c7;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            z-index: 1000;
+        }
+
+        .status-connected {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-disconnected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 576px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .container {
+                background: rgb(0, 0, 107) !important;
+                backdrop-filter: blur(10px);
+
+            }
+
+            .navbar {
+                background: rgb(0, 0, 107) !important;
+                backdrop-filter: blur(10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <img src="schoollogo.png" alt="" width="100"></i>SchoolTrack
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.html">Student Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="admin-register.html">Admin Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Connection Status -->
+    <div id="connectionStatus" class="connection-status status-disconnected" style="margin-top: 3rem;">
+        <i class="bi bi-wifi-off me-1"></i>Checking database connection...
+    </div>
+
+    <!-- Registration Form -->
+    <div class="container">
+        <div class="register-container">
+            <div class="text-center mb-4">
+                <i class="bi bi-shield-lock-fill register-icon"></i>
+                <h2 class="mt-3">Admin Registration</h2>
+                <p class="text-muted">Create an administrator account</p>
+                <span class="admin-badge">
+                    <i class="bi bi-shield-check me-1"></i>Administrator Access
+                </span>
+            </div>
+
+
+
+            <div class="security-note">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong>Security Note:</strong> This page is for authorized personnel only. You'll need a valid
+                registration key to create an admin account.
+            </div>
+
+            <div id="alertContainer"></div>
+
+            <form id="adminRegisterForm">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="adminUsername" class="form-label">
+                                <i class="bi bi-person-badge me-1"></i>Admin Username
+                            </label>
+                            <input type="text" class="form-control" id="adminUsername" required>
+                            <small class="text-muted">Unique username for login</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="adminEmail" class="form-label">
+                                <i class="bi bi-envelope me-1"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="adminEmail" required>
+                            <small class="text-muted">Official email address</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="adminFullName" class="form-label">
+                        <i class="bi bi-person me-1"></i>Full Name
+                    </label>
+                    <input type="text" class="form-control" id="adminFullName" required>
+                    <small class="text-muted">Your complete name as per records</small>
+                </div>
+
+                <div class="mb-3">
+                    <label for="adminRole" class="form-label">
+                        <i class="bi bi-person-gear me-1"></i>Admin Role
+                    </label>
+                    <select class="form-select" id="adminRole" required>
+                        <option value="">Select Role</option>
+                        <option value="super_admin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="teacher">Class Teacher</option>
+                    </select>
+                    <div class="role-description">
+                        <strong>Super Admin:</strong> Full system access<br>
+                        <strong>Admin:</strong> Manage students and attendance<br>
+                        <strong>Teacher:</strong> View class attendance only
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="registrationKey" class="form-label">
+                        <i class="bi bi-key me-1"></i>Registration Key
+                    </label>
+                    <input type="text" class="form-control" id="registrationKey" required>
+                    <small class="text-muted">Enter the secret registration key provided by your system
+                        administrator</small>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">
+                                <i class="bi bi-lock me-1"></i>Password
+                            </label>
+                            <div class="password-container">
+                                <input type="password" class="form-control" id="adminPassword" required>
+                                <i class="bi bi-eye-slash password-toggle" id="toggleAdminPassword"></i>
+                            </div>
+                            <small class="text-muted">Minimum 8 characters with uppercase, lowercase, and number</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="confirmAdminPassword" class="form-label">
+                                <i class="bi bi-lock-fill me-1"></i>Confirm Password
+                            </label>
+                            <input type="password" class="form-control" id="confirmAdminPassword" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">
+                            I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">terms and
+                                conditions</a> for admin access
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-register text-white">
+                    <i class="bi bi-shield-plus me-2"></i>Create Admin Account
+                </button>
+
+                <div class="text-center mt-3">
+                    <p class="mb-0">Already have an admin account? <a href="login.html" class="text-primary">Login
+                            here</a></p>
+                    <p class="mt-2"><a href="register.html" class="text-muted">Register as Student</a></p>
+                </div>
+            </form>
+
+            <div class="debug-info" id="debugInfo">
+                <strong>Debug Information:</strong>
+                <div id="debugContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Admin Terms and Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Administrator Responsibilities:</h6>
+                    <ul>
+                        <li>Maintain confidentiality of all student data</li>
+                        <li>Use the system only for authorized educational purposes</li>
+                        <li>Monitor attendance accurately and fairly</li>
+                        <li>Report any system issues promptly</li>
+                        <li>Follow school policies regarding data handling</li>
+                    </ul>
+
+                    <h6>Security Requirements:</h6>
+                    <ul>
+                        <li>Keep your login credentials secure</li>
+                        <li>Use strong passwords and change them regularly</li>
+                        <li>Log out after each session</li>
+                        <li>Report any suspicious activity immediately</li>
+                    </ul>
+
+                    <h6>Data Protection:</h6>
+                    <p>As an administrator, you have access to sensitive student information. You agree to:</p>
+                    <ul>
+                        <li>Comply with all applicable data protection laws</li>
+                        <li>Not share student information with unauthorized parties</li>
+                        <li>Use data only for legitimate educational purposes</li>
+                    </ul>
+
+                    <h6>Consequences of Violation:</h6>
+                    <p>Violation of these terms may result in:</p>
+                    <ul>
+                        <li>Immediate suspension of admin privileges</li>
+                        <li>Reporting to school authorities</li>
+                        <li>Legal action if laws are violated</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxqHcw20bkjV8lZhBxnYpnc71EMmMy4sY",
+            authDomain: "my-project-d8b25.firebaseapp.com",
+            databaseURL: "https://my-project-d8b25-default-rtdb.firebaseio.com",
+            projectId: "my-project-d8b25",
+            storageBucket: "my-project-d8b25.firebasestorage.app",
+            messagingSenderId: "1091543391506",
+            appId: "1:1091543391506:web:9b642fbfb3d3717855e7cb",
+            measurementId: "G-5PC522L4W7"
+        };
+
+        // Initialize Firebase
+        let database;
+        let firebaseApp;
+
+        // Test database connection
+        function testDatabaseConnection() {
+            const statusDiv = document.getElementById('connectionStatus');
+
+            try {
+                firebaseApp = firebase.initializeApp(firebaseConfig);
+                database = firebase.database();
+
+                // Test connection
+                const connectedRef = database.ref('.info/connected');
+                connectedRef.on('value', (snap) => {
+                    if (snap.val() === true) {
+                        statusDiv.className = 'connection-status status-connected';
+                        statusDiv.innerHTML = '<i class="bi bi-wifi me-1"></i>Database connected';
+                        console.log('Firebase connected successfully');
+                    } else {
+                        statusDiv.className = 'connection-status status-disconnected';
+                        statusDiv.innerHTML = '<i class="bi bi-wifi-off me-1"></i>Database disconnected';
+                        console.log('Firebase disconnected');
+                    }
+                });
+
+                // Test read operation
+                setTimeout(() => {
+                    database.ref('test').set('connected')
+                        .then(() => {
+                            console.log('Database write test successful');
+                            database.ref('test').remove();
+                        })
+                        .catch(error => {
+                            console.error('Database write test failed:', error);
+                        });
+                }, 1000);
+
+            } catch (error) {
+                console.error("Firebase initialization error:", error);
+                statusDiv.className = 'connection-status status-disconnected';
+                statusDiv.innerHTML = '<i class="bi bi-wifi-off me-1"></i>Database connection failed';
+                showAlert("Firebase initialization failed. Please check your configuration.", "danger");
+            }
+        }
+
+        // Test connection when page loads
+        window.addEventListener('load', testDatabaseConnection);
+
+        // Valid registration key (in production, this should be more secure)
+        const VALID_REGISTRATION_KEY = "SCHOOLTRACK2024";
+
+        // Password toggle functionality
+        const toggleAdminPassword = document.getElementById('toggleAdminPassword');
+        const adminPasswordInput = document.getElementById('adminPassword');
+
+        toggleAdminPassword.addEventListener('click', function () {
+            const type = adminPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            adminPasswordInput.setAttribute('type', type);
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+
+        // Form submission
+        document.getElementById('adminRegisterForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Clear previous debug info
+            document.getElementById('debugContent').innerHTML = '';
+
+            const username = document.getElementById('adminUsername').value;
+            const email = document.getElementById('adminEmail').value;
+            const fullName = document.getElementById('adminFullName').value;
+            const role = document.getElementById('adminRole').value;
+            const registrationKey = document.getElementById('registrationKey').value;
+            const password = document.getElementById('adminPassword').value;
+            const confirmPassword = document.getElementById('confirmAdminPassword').value;
+
+            // Debug info
+            const debugInfo = {
+                username: username,
+                email: email,
+                fullName: fullName,
+                role: role,
+                registrationKey: registrationKey,
+                passwordLength: password.length,
+                passwordsMatch: password === confirmPassword,
+                keyValid: registrationKey === VALID_REGISTRATION_KEY
+            };
+            console.log("Form data:", debugInfo);
+            document.getElementById('debugContent').textContent = JSON.stringify(debugInfo, null, 2);
+            document.getElementById('debugInfo').style.display = 'block';
+
+            // Validation
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match!', 'danger');
+                return;
+            }
+
+            // Password strength validation
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
+                showAlert('Password must be at least 8 characters with uppercase, lowercase, and number!', 'danger');
+                return;
+            }
+
+            // Validate registration key
+            if (registrationKey !== VALID_REGISTRATION_KEY) {
+                showAlert('Invalid registration key!', 'danger');
+                return;
+            }
+
+            // Check if database is connected
+            if (!database) {
+                showAlert('Database not connected. Please refresh the page.', 'danger');
+                return;
+            }
+
+            // Check if username already exists
+            try {
+                console.log("Checking for existing username...");
+
+                // First, try to get all admins to see if the structure exists
+                const adminsRef = database.ref('admins');
+                const adminsSnapshot = await adminsRef.once('value');
+                console.log("Admins snapshot exists:", adminsSnapshot.exists());
+
+                // Now check for specific username
+                const usernameQuery = adminsRef.orderByChild('username').equalTo(username);
+                const usernameSnapshot = await usernameQuery.once('value');
+                console.log("Username query result:", usernameSnapshot.val());
+
+                if (usernameSnapshot.exists()) {
+                    showAlert('Username already exists!', 'danger');
+                    return;
+                }
+            } catch (error) {
+                console.error("Error checking username:", error);
+                showAlert('Error checking username: ' + error.message, 'danger');
+                return;
+            }
+
+            // Check if email already exists
+            try {
+                console.log("Checking for existing email...");
+
+                const adminsRef = database.ref('admins');
+                const emailQuery = adminsRef.orderByChild('email').equalTo(email);
+                const emailSnapshot = await emailQuery.once('value');
+                console.log("Email query result:", emailSnapshot.val());
+
+                if (emailSnapshot.exists()) {
+                    showAlert('Email already registered!', 'danger');
+                    return;
+                }
+            } catch (error) {
+                console.error("Error checking email:", error);
+                showAlert('Error checking email: ' + error.message, 'danger');
+                return;
+            }
+
+            // Save admin data
+            const adminData = {
+                username: username,
+                email: email,
+                fullName: fullName,
+                role: role,
+                password: btoa(password), // Simple encoding (in production, use proper hashing)
+                registeredAt: new Date().toISOString(),
+                lastLogin: null,
+                isActive: true
+            };
+
+            console.log("Saving admin data:", adminData);
+
+            // Disable the submit button to prevent multiple submissions
+            const submitButton = document.querySelector('.btn-register');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creating Account...';
+
+            try {
+                // Create a new admin entry
+                const newAdminRef = database.ref('admins').push();
+                console.log("New admin reference created with key:", newAdminRef.key);
+
+                // Save the data
+                await newAdminRef.set(adminData);
+
+                console.log("Admin data saved successfully");
+
+                // Verify the data was saved
+                const savedData = await newAdminRef.once('value');
+                console.log("Saved data verification:", savedData.val());
+
+                showAlert('Admin account created successfully! You can now login.', 'success');
+
+                // Redirect to login page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            } catch (error) {
+                console.error("Error saving admin data:", error);
+
+                // Re-enable the button if there's an error
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="bi bi-shield-plus me-2"></i>Create Admin Account';
+
+                showAlert('Registration failed: ' + error.message, 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+        }
+    </script>
+</body>
+
+</html>
